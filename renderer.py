@@ -11,14 +11,14 @@ dw.color('green')
 turtle.tracer(0, 0)
 
 
-vX = [ 2, 2,-2,-2, 2, 2,-2,-2]
-vY = [-2, 2,-2, 2,-2, 2,-2, 2]
-vZ = [2, 2, 2, 2, 4 ,4 ,4 ,4 ]   #no poner negativos o jodes el sistema
+vX = [-2,-2,-2,-2, 2]
+vY = [-2, 2,-2, 2, 0]
+vZ = [ 4, 4, 2, 2, 3]   #no poner negativos o jodes el sistema
 
-lineA = [1,3,5,7,1,2,5,6,1,2,3,4]
-lineB = [2,4,6,8,3,4,7,8,5,6,7,8]
+lineA = [1,2,3,4,1,2,3,4]
+lineB = [2,4,1,3,5,5,5,5]
 
-lN = 12
+lN = len(lineA)
 vN = len(vX)
 svX = []
 svY = []
@@ -63,8 +63,8 @@ def render():
     for i in range(vN):
         tDistance =  sD + fD + vZ[i]
         div = tDistance / vZ[i]
-        svX.append(mult*(vX[i] / div))
-        svY.append(mult*(vY[i] / div))
+        svX.append(-mult*(vX[i] / div))
+        svY.append(-mult*(vY[i] / div))
 
     for i in range(vN):
         dw.color('green')
@@ -87,19 +87,19 @@ def render():
 render()
 
 while True:
-    if keyboard.is_pressed('d'):
+    if keyboard.is_pressed('a'):
         for i in range(vN):
             vY[i] = vY[i] + nA
         render()
-    if keyboard.is_pressed('a'):
+    if keyboard.is_pressed('d'):
         for i in range(vN):
             vY[i] = vY[i] - nA
         render()
-    if keyboard.is_pressed('w'):
+    if keyboard.is_pressed('s'):
         for i in range(vN):
             vX[i] = vX[i] + nA
         render()
-    if keyboard.is_pressed('s'):
+    if keyboard.is_pressed('w'):
         for i in range(vN):
             vX[i] = vX[i] - nA
         render()
