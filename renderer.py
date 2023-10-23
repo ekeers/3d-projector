@@ -62,7 +62,7 @@ def render():
     skips.clear()
     for i in range(vN):
         tDistance =  sD + fD + vZ[i]
-        if tDistance == 0:
+        if tDistance <= 0:
             skips.append(i)
             svX.append(0)
             svY.append(0)
