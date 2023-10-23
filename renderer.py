@@ -22,7 +22,7 @@ lN = len(lineA)
 vN = len(vX)
 svX = []
 svY = []
-
+skips = []
 
 mult = 100
 sD = 3
@@ -59,14 +59,22 @@ def render():
     turtle.tracer(0, 0)
     svX.clear()
     svY.clear()
-
+    skips.clear()
     for i in range(vN):
         tDistance =  sD + fD + vZ[i]
+        if tDistance == 0:
+            skips.append(i)
+            svX.append(0)
+            svY.append(0)
+            continue
         div = tDistance / vZ[i]
         svX.append(-mult*(vX[i] / div))
         svY.append(-mult*(vY[i] / div))
 
     for i in range(vN):
+        if i in skips:
+            print('skiped vertex', + i)
+            continue
         dw.color('green')
         print('vertex', + i+1, 'of', + vN)
         print('X:', + svX[i])
