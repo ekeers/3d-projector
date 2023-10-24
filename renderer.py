@@ -10,82 +10,87 @@ dw.color('green')
 #dw.speed(0)
 turtle.tracer(0, 0)
 
+#porfavor no poner numeros negativos en cordenada z
+vertexX = [ 2, 2,-2,-2, 2, 2,-2,-2]
+vertexY = [-2, 2,-2, 2,-2, 2,-2, 2]
+vertexZ = [ 2, 2, 2, 2, 4 ,4 ,4 ,4]
 
-vX = [-2,-2,-2,-2, 2]
-vY = [-2, 2,-2, 2, 0]
-vZ = [ 4, 4, 2, 2, 3]   #no poner negativos o jodes el sistema
+triangleA = [1,2,5,6,1,5,2,6,1,2,3,4]
+triangleB = [2,3,6,7,5,3,6,4,2,5,4,7]
+triangleC = [3,4,7,8,3,7,4,8,5,6,7,8]
 
-lineA = [1,2,3,4,1,2,3,4]
-lineB = [2,4,1,3,5,5,5,5]
 
-lN = len(lineA)
-vN = len(vX)
-svX = []
-svY = []
+triangleNumber = len(triangleA)
+vertexNumber = len(vertexX)
+screenX = []
+screenY = []
 skips = []
 
 mult = 100
-sD = 3
-fD = 3
+screenDistance = 3
+focalDistance = 3
 
-nA = 0.25
+nugeAmount = 0.25
 
 
-def drawLine(x):
-    dw.goto(-svY[lineA[x] - 1], -svX[lineA[x] - 1])
+def drawTriangle(x):
+    dw.goto(-screenY[triangleA[x] - 1], -screenX[triangleA[x] - 1])
     dw.down()
-    dw.goto(-svY[lineB[x] - 1], -svX[lineB[x] - 1])
+    dw.goto(-screenY[triangleB[x] - 1], -screenX[triangleB[x] - 1])
+    dw.goto(-screenY[triangleC[x] - 1], -screenX[triangleC[x] - 1])
+    dw.goto(-screenY[triangleA[x] - 1], -screenX[triangleA[x] - 1])
+    dw.up()
 
-
-if len(vY) != vN or len(vZ) != vN:
+if len(vertexY) != vertexNumber or len(vertexZ) != vertexNumber:
     print('error, missing or extra cordinates given')
-    print('x:', + len(vX))
-    print('y:', + len(vY))
-    print('z:', + len(vZ))
+    print('x:', + len(vertexX))
+    print('y:', + len(vertexY))
+    print('z:', + len(vertexZ))
     exit()
 
-if len(lineA) != len(lineB):
+if triangleNumber != len(triangleB) or triangleNumber != len(triangleC):
     print('error, mising or extra cordinates for lines given')
-    print('cordenadas A:', + len(lineA))
-    print('cordenadas B:', + len(lineB))
+    print('cordenadas A:', + len(triangleA))
+    print('cordenadas B:', + len(triangleB))
+    print('cordenadas C:', + len(triangleC))
     exit()
 
 def render():
-    global vY
-    global vX
-    global sD
+    global vertexY
+    global vertexX
+    global screenDistance
     dw.clear()
     turtle.bgcolor('black')
     turtle.tracer(0, 0)
-    svX.clear()
-    svY.clear()
+    screenX.clear()
+    screenY.clear()
     skips.clear()
-    for i in range(vN):
-        tDistance =  sD + fD + vZ[i]
+    for i in range(vertexNumber):
+        tDistance =  screenDistance + focalDistance + vertexZ[i]
         if tDistance <= 0:
             skips.append(i)
-            svX.append(0)
-            svY.append(0)
+            screenX.append(0)
+            screenY.append(0)
             continue
-        div = tDistance / vZ[i]
-        svX.append(-mult*(vX[i] / div))
-        svY.append(-mult*(vY[i] / div))
+        div = tDistance / vertexZ[i]
+        screenX.append(-mult*(vertexX[i] / div))
+        screenY.append(-mult*(vertexY[i] / div))
 
-    for i in range(vN):
+    for i in range(vertexNumber):
         if i in skips:
             print('skiped vertex', + i)
             continue
         dw.color('green')
-        print('vertex', + i+1, 'of', + vN)
-        print('X:', + svX[i])
-        print('Y:', + svY[i])
+        print('vertex', + i+1, 'of', + vertexNumber)
+        print('X:', + screenX[i])
+        print('Y:', + screenY[i])
         dw.up()
-        dw.goto(-svY[i], -svX[i])
+        dw.goto(-screenY[i], -screenX[i])
         dw.dot()
     dw.color('blue')
-    for i in range(lN):
+    for i in range(triangleNumber):
         print('tracing line', i + 1)
-        drawLine(i)
+        drawTriangle(i)
         dw.up()
         turtle.update()
 
@@ -96,28 +101,28 @@ render()
 
 while True:
     if keyboard.is_pressed('a'):
-        for i in range(vN):
-            vY[i] = vY[i] + nA
+        for i in range(vertexNumber):
+            vertexY[i] = vertexY[i] + nugeAmount
         render()
     if keyboard.is_pressed('d'):
-        for i in range(vN):
-            vY[i] = vY[i] - nA
+        for i in range(vertexNumber):
+            vertexY[i] = vertexY[i] - nugeAmount
         render()
     if keyboard.is_pressed('s'):
-        for i in range(vN):
-            vX[i] = vX[i] + nA
+        for i in range(vertexNumber):
+            vertexX[i] = vertexX[i] + nugeAmount
         render()
     if keyboard.is_pressed('w'):
-        for i in range(vN):
-            vX[i] = vX[i] - nA
+        for i in range(vertexNumber):
+            vertexX[i] = vertexX[i] - nugeAmount
         render()
     if keyboard.is_pressed('f'):
-        for i in range(vN):
-            sD = sD + nA
+        for i in range(vertexNumber):
+            screenDistance = screenDistance + nugeAmount
         render()
     if keyboard.is_pressed('r'):
-        for i in range(vN):
-            sD = sD - nA
+        for i in range(vertexNumber):
+            screenDistance = screenDistance - nugeAmount
         render()
 
 
