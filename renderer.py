@@ -76,9 +76,9 @@ def render():
             screenX.append(0)
             screenY.append(0)
             continue
-        div = tDistance / vertexZ[i]
-        screenX.append(-mult*(vertexX[i] / div))
-        screenY.append(-mult*(vertexY[i] / div))
+
+        screenX.append(-mult*((vertexX[i]*focalDistance)/(focalDistance+vertexZ[i])))
+        screenY.append(-mult*((vertexY[i]*focalDistance)/(focalDistance+vertexZ[i])))
 
     for i in range(vertexNumber):
         if i in skips:
@@ -104,30 +104,34 @@ def render():
 render()
 
 while True:
+    renderDo = 0
     if keyboard.is_pressed('a'):
         for i in range(vertexNumber):
             vertexY[i] = vertexY[i] + nugeAmount
-        render()
+            renderDo+=1
     if keyboard.is_pressed('d'):
         for i in range(vertexNumber):
             vertexY[i] = vertexY[i] - nugeAmount
-        render()
+            renderDo+=1
     if keyboard.is_pressed('s'):
         for i in range(vertexNumber):
             vertexX[i] = vertexX[i] + nugeAmount
-        render()
+            renderDo+=1
     if keyboard.is_pressed('w'):
         for i in range(vertexNumber):
             vertexX[i] = vertexX[i] - nugeAmount
-        render()
+            renderDo+=1
     if keyboard.is_pressed('f'):
         for i in range(vertexNumber):
-            screenDistance = screenDistance + nugeAmount
-        render()
+            vertexZ[i] = vertexZ[i] + nugeAmount
+            renderDo+=1
     if keyboard.is_pressed('r'):
         for i in range(vertexNumber):
-            screenDistance = screenDistance - nugeAmount
+            vertexZ[i] = vertexZ[i] - nugeAmount
+            renderDo+=1    
+    if renderDo > 0:
         render()
+        renderDo = 0
 
 
 
