@@ -1,7 +1,7 @@
 import turtle
 import time
 import keyboard
-
+triangleFill = False
 turtle.bgcolor('black')
 
 dw = turtle.Turtle()
@@ -27,7 +27,7 @@ screenY = []
 skips = []
 
 mult = 100
-screenDistance = 3
+screenDistance = 0
 focalDistance = 3
 
 nugeAmount = 0.25
@@ -36,10 +36,14 @@ nugeAmount = 0.25
 def drawTriangle(x):
     dw.goto(-screenY[triangleA[x] - 1], -screenX[triangleA[x] - 1])
     dw.down()
+    if triangleFill == True:
+        dw.begin_fill()
     dw.goto(-screenY[triangleB[x] - 1], -screenX[triangleB[x] - 1])
     dw.goto(-screenY[triangleC[x] - 1], -screenX[triangleC[x] - 1])
     dw.goto(-screenY[triangleA[x] - 1], -screenX[triangleA[x] - 1])
     dw.up()
+    if triangleFill == True:
+        dw.end_fill()
 
 if len(vertexY) != vertexNumber or len(vertexZ) != vertexNumber:
     print('error, missing or extra cordinates given')
