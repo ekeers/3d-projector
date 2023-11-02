@@ -10,16 +10,30 @@ dw.color('green')
 #dw.speed(0)
 turtle.tracer(0, 0)
 
-vertexX = [ 2, 2,-2,-2, 2, 2,-2,-2]
-vertexY = [-2, 2,-2, 2,-2, 2,-2, 2]
-vertexZ = [ 2, 2, 2, 2, 4 ,4 ,4 ,4]
+vertexList = [[ 2,-2, 4],           #XYZ
+              [ 2, 2, 4],
+              [-2,-2, 4],
+              [-2, 2, 4],
+              [ 2,-2, 6],
+              [ 2, 2, 6],
+              [-2,-2, 6],
+              [-2, 2, 6]]
 
-triangleA = [1,2,5,6,1,5,2,6,1,2,3,4]
-triangleB = [2,3,6,7,5,3,6,4,2,5,4,7]
-triangleC = [3,4,7,8,3,7,4,8,5,6,7,8]
+triangleList = [[1,2,3],
+                [2,3,4],
+                [5,6,7],
+                [6,7,8],
+                [1,3,5],
+                [3,5,6],
+                [2,4,6],
+                [4,6,8],
+                [1,2,5],
+                [2,5,6],
+                [3,4,7],
+                [4,7,8]]
 
-triangleNumber = len(triangleA)
-vertexNumber = len(vertexX)
+triangleNumber = len(triangleList)
+vertexNumber = len(vertexList)
 
 screenX = []
 screenY = []
@@ -33,35 +47,22 @@ nugeAmount = 0.25
 
 
 def drawTriangle(x):
-    dw.goto(-screenY[triangleA[x] - 1], -screenX[triangleA[x] - 1])
+    dw.goto(-screenY[triangleList[x][0] - 1], -screenX[triangleList[x][0]  - 1])
     dw.down()
     if triangleFill == True:
         dw.begin_fill()
-    dw.goto(-screenY[triangleB[x] - 1], -screenX[triangleB[x] - 1])
-    dw.goto(-screenY[triangleC[x] - 1], -screenX[triangleC[x] - 1])
-    dw.goto(-screenY[triangleA[x] - 1], -screenX[triangleA[x] - 1])
+    dw.goto(-screenY[triangleList[x][1] - 1], -screenX[triangleList[x][1] - 1])
+    dw.goto(-screenY[triangleList[x][2] - 1], -screenX[triangleList[x][2] - 1])
+    dw.goto(-screenY[triangleList[x][0] - 1], -screenX[triangleList[x][0] - 1])
     dw.up()
     if triangleFill == True:
         dw.end_fill()
 
-if len(vertexY) != vertexNumber or len(vertexZ) != vertexNumber:
-    print('error, missing or extra cordinates given')
-    print('x:', + len(vertexX))
-    print('y:', + len(vertexY))
-    print('z:', + len(vertexZ))
-    exit()
 
-if triangleNumber != len(triangleB) or triangleNumber != len(triangleC):
-    print('error, mising or extra cordinates for lines given')
-    print('cordenadas A:', + len(triangleA))
-    print('cordenadas B:', + len(triangleB))
-    print('cordenadas C:', + len(triangleC))
-    exit()
+
 
 def render():
-    global vertexY
-    global vertexX
-    global screenDistance
+
     dw.clear()
     turtle.bgcolor('black')
     turtle.tracer(0, 0)
@@ -69,15 +70,15 @@ def render():
     screenY.clear()
     skips.clear()
     for i in range(vertexNumber):
-        tDistance =  screenDistance + focalDistance + vertexZ[i]
+        tDistance =  screenDistance + focalDistance + vertexList[i][2]
         if tDistance <= 0:
             skips.append(i)
             screenX.append(0)
             screenY.append(0)
             continue
 
-        screenX.append(-mult*((vertexX[i]*focalDistance)/(focalDistance+vertexZ[i])))
-        screenY.append(-mult*((vertexY[i]*focalDistance)/(focalDistance+vertexZ[i])))
+        screenX.append(-mult*((vertexList[i][0]*focalDistance)/(focalDistance+vertexList[i][2])))
+        screenY.append(-mult*((vertexList[i][1]*focalDistance)/(focalDistance+vertexList[i][2])))
 
     for i in range(vertexNumber):
         if i in skips:
@@ -92,7 +93,7 @@ def render():
         dw.dot()
     dw.color('blue')
     for i in range(triangleNumber):
-        print('tracing line', i + 1)
+        print('drawing triangle', i + 1)
         drawTriangle(i)
         dw.up()
         turtle.update()
@@ -103,27 +104,27 @@ while True:
     renderDo = 0
     if keyboard.is_pressed('a'):
         for i in range(vertexNumber):
-            vertexY[i] = vertexY[i] + nugeAmount
+            vertexList[i][1] = vertexList[i][1] + nugeAmount
             renderDo+=1
     if keyboard.is_pressed('d'):
         for i in range(vertexNumber):
-            vertexY[i] = vertexY[i] - nugeAmount
+            vertexList[i][1] = vertexList[i][1] - nugeAmount
             renderDo+=1
     if keyboard.is_pressed('s'):
         for i in range(vertexNumber):
-            vertexX[i] = vertexX[i] + nugeAmount
+            vertexList[i][0] = vertexList[i][0] + nugeAmount
             renderDo+=1
     if keyboard.is_pressed('w'):
         for i in range(vertexNumber):
-            vertexX[i] = vertexX[i] - nugeAmount
+            vertexList[i][0] = vertexList[i][0] - nugeAmount
             renderDo+=1
     if keyboard.is_pressed('f'):
         for i in range(vertexNumber):
-            vertexZ[i] = vertexZ[i] + nugeAmount
+            vertexList[i][2] = vertexList[i][2] + nugeAmount
             renderDo+=1
     if keyboard.is_pressed('r'):
         for i in range(vertexNumber):
-            vertexZ[i] = vertexZ[i] - nugeAmount
+            vertexList[i][2] = vertexList[i][2] - nugeAmount
             renderDo+=1    
     if renderDo > 0:
         render()
