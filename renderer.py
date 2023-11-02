@@ -5,6 +5,7 @@ import time
 
 
 triangleFill = False
+drawVertexes = False
 turtle.bgcolor('black')
 
 dw = turtle.Turtle()
@@ -46,7 +47,7 @@ mult = 100
 screenDistance = 0
 focalDistance = 3
 
-nugeAmount = 0.25
+nugeAmount = 0.1
 turnAmount = math.radians(1)
 
 def drawTriangle(x):
@@ -93,7 +94,8 @@ def render():
         print('Y:', + screenY[i])
         dw.up()
         dw.goto(-screenY[i], -screenX[i])
-        dw.dot()
+        if drawVertexes == True:
+            dw.dot()
     dw.color('blue')
     for i in range(triangleNumber):
         print('drawing triangle', i + 1)
