@@ -10,7 +10,6 @@ dw.color('green')
 #dw.speed(0)
 turtle.tracer(0, 0)
 
-#porfavor no poner numeros negativos en cordenada z
 vertexX = [ 2, 2,-2,-2, 2, 2,-2,-2]
 vertexY = [-2, 2,-2, 2,-2, 2,-2, 2]
 vertexZ = [ 2, 2, 2, 2, 4 ,4 ,4 ,4]
@@ -19,9 +18,9 @@ triangleA = [1,2,5,6,1,5,2,6,1,2,3,4]
 triangleB = [2,3,6,7,5,3,6,4,2,5,4,7]
 triangleC = [3,4,7,8,3,7,4,8,5,6,7,8]
 
-
 triangleNumber = len(triangleA)
 vertexNumber = len(vertexX)
+
 screenX = []
 screenY = []
 skips = []
@@ -97,9 +96,6 @@ def render():
         drawTriangle(i)
         dw.up()
         turtle.update()
-
-
-
 
 render()
 
